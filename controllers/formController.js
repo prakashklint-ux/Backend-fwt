@@ -112,5 +112,6 @@ const getDailyStats = async (req, res) => {
 module.exports = {
     submitForm,
     getAllForms,
-    getDailyStats
+    getDailyStats,
+    updateFormStatus
 };
