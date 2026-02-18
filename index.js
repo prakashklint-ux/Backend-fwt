@@ -19,21 +19,29 @@ app.use(
   })
 );
 
-
 app.use(express.json());
 
-// Routes 
+// Default route
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
 
-
+// Form Routes
 const formRoutes = require('./routes/formRoutes');
-
 app.use('/api/forms', formRoutes);
 
-const startCronJobs = require('./jobs/cronJobs');
-startCronJobs();
+// Stock Routes
+const stockRoutes = require('./routes/formRoutes');
+app.use('/api/stocks', stockRoutes);
+
+// Stock Auto Update
+const { fetchStockData } = require('./Service/services');
+
+// Run once on server start
+fetchStockData();
+
+// Run every 19 minutes
+setInterval(fetchStockData, 19 * 60 * 1000);
 
 const PORT = process.env.PORT || 5000;
 

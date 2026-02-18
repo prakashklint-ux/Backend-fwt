@@ -1,15 +1,15 @@
 const Form = require('../models/Form');
 const DailyStat = require('../models/DailyStat');
+// const {getStockData} = require('../services/stockService');
+// const YahooFinance = require("yahoo-finance2").default;
 
-const YahooFinance = require("yahoo-finance2").default;
-
-const yahooFinance = new YahooFinance({
-  fetchOptions: {
-    headers: {
-      "User-Agent": "Mozilla/5.0"
-    }
-  }
-});
+// const yahooFinance = new YahooFinance({
+//   fetchOptions: {
+//     headers: {
+//       "User-Agent": "Mozilla/5.0"
+//     }
+//   }
+// });
 
 
 
@@ -120,38 +120,10 @@ const getDailyStats = async (req, res) => {
 };
 
 
-const getStocks = async (req, res) => {
-  try {
+const { getStockData } = require('../Service/services');
 
-    const symbols = [
-      "RELIANCE.NS",
-      "TCS.NS",
-     
-    ];
-
-    const results = await Promise.all(
-      symbols.map(symbol => yahooFinance.quote(symbol))
-    );
-
-    const formatted = results.map(stock => ({
-      name: stock.symbol.replace(".NS", ""),
-      price: stock.regularMarketPrice,
-      change: stock.regularMarketChangePercent
-    }));
-
-    res.status(200).json({
-      success: true,
-      data: formatted
-    });
-
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      message: "Error fetching stocks",
-      error: error.message
-    });
-  }
+const getStocks = (req, res) => {
+  res.json(getStockData());
 };
 
 
