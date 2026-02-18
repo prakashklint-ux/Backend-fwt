@@ -32,7 +32,12 @@ const formSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true
-    }
+    },
+    status: {
+    type: String,
+    enum: ['Pending', 'Done'],
+    default: 'Pending'
+  }
   },
   {
     timestamps: true 

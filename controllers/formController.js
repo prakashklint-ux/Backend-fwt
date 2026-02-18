@@ -41,6 +41,37 @@ const submitForm = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+// @desc    Update form status
+// @route   PUT /api/forms/:id/status
+// @access  Admin
+const updateFormStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!['Pending', 'Done'].includes(status)) {
+      return res.status(400).json({ message: "Invalid status value" });
+    }
+
+    const form = await Form.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!form) {
+      return res.status(404).json({ message: "Form not found" });
+    }
+
+    res.json({
+      message: "Status updated successfully",
+      data: form
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
 
 
 // @desc    Get all forms
