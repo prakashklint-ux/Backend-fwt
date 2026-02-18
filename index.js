@@ -11,7 +11,8 @@ const app = express();
 // ✅ Use CORS only once
 app.use(
   cors({
-    origin: "https://fin-wise-tools.vercel.app/", 
+    // origin: "https://localhost:5173/", 
+    origin: "https://fin-wise-tools.vercel.app", 
     credentials: true
   })
 );

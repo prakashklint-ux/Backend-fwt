@@ -22,7 +22,7 @@ const submitForm = async (req, res) => {
       message
     });
 
-    // Format date & time
+     
     const submittedDate = form.createdAt.toLocaleDateString();
     const submittedTime = form.createdAt.toLocaleTimeString();
 
