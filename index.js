@@ -8,15 +8,17 @@ connectDB();
 
 const app = express();
 
-
 app.use(
   cors({
-    origin: "https://localhost:5173", 
-    origin: "https://fin-wise-tools.vercel.app", 
-    origin:"https://finwisetools.online",
+    origin: [
+      "http://localhost:5173",
+      "https://fin-wise-tools.vercel.app",
+      "https://finwisetools.online"
+    ],
     credentials: true
   })
 );
+
 
 app.use(express.json());
 
