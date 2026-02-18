@@ -84,7 +84,7 @@ const startCronJobs = () => {
         // Send email
         await transporter.sendMail({
           from: process.env.EMAIL_USER,
-          to: ["mann.klint@gmail.com", "nirav.klint@gmail.com"],
+          to: ["mann.klint@gmail.com", ],
           subject: " Daily Website Form Report",
           html: `
     <div style="font-family: Arial, sans-serif;">
