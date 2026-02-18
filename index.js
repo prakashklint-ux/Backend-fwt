@@ -13,6 +13,7 @@ app.use(
   cors({
     origin: "https://localhost:5173", 
     origin: "https://fin-wise-tools.vercel.app", 
+    origin:"https://finwisetools.online",
     credentials: true
   })
 );

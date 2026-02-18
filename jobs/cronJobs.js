@@ -1,46 +1,66 @@
 const cron = require('node-cron');
 const Form = require('../models/Form');
 const DailyStat = require('../models/DailyStat');
+const nodemailer = require('nodemailer');
 
 const startCronJobs = () => {
-    // Run at 9 PM every day
-    // Cron format: Second (optional), Minute, Hour, Day of Month, Month, Day of Week
-    // '0 21 * * *' = At 21:00 (9 PM) every day
-    cron.schedule('*  * * * *', async () => {
-        console.log('Running functionality to update daily stats at 9 PM...');
 
-        try {
-            const startOfDay = new Date();
-            startOfDay.setHours(0, 0, 0, 0);
+  cron.schedule('* * * * *', async () => {
 
-            // Assuming we count forms from 00:00 today until 21:00 (now)
-            // or simply count all forms created "today" regardless of time if the goal is "daily total"
-            // The prompt says "Calculate total forms submitted today"
-            const endOfDay = new Date();
-            // endOfDay is now (21:00)
+    console.log("Running daily report...");
 
-            const count = await Form.countDocuments({
-                createdAt: {
-                    $gte: startOfDay,
-                    $lte: endOfDay
-                }
-            });
+    try {
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
 
-            // Store in DailyStat
-            // We use startOfDay as the date key for "today's stats"
-            // Check if entry exists to avoid duplicates if cron runs multiple times (unlikely but safe)
-            await DailyStat.findOneAndUpdate(
-                { date: startOfDay },
-                { totalForms: count },
-                { upsert: true, new: true }
-            );
+      const endOfDay = new Date();
 
-            console.log(`Daily stats updated: ${count} forms submitted today.`);
-
-        } catch (error) {
-            console.error('Error updating daily stats:', error);
+      const totalForms = await Form.countDocuments({
+        createdAt: {
+          $gte: startOfDay,
+          $lte: endOfDay
         }
-    });
+      });
+
+      // Save in DailyStat
+      await DailyStat.findOneAndUpdate(
+        { date: startOfDay },
+        { totalForms },
+        { upsert: true }
+      );
+
+      // Create transporter
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      });
+
+      // Send mail to YOU (Admin)
+      await transporter.sendMail({
+        from: process.env.EMAIL_USER,
+        to: "nirav.klint@gmail.com",
+        subject: "📊 Daily Website Form Report",
+        html: `
+          <h2>Daily Form Submission Report</h2>
+          <p>Total forms received today:</p>
+          <h1>${totalForms}</h1>
+          <p>Regards,<br/>Your Website System</p>
+        `
+      });
+
+      console.log("Daily report email sent successfully.");
+
+    } catch (error) {
+      console.error("Error sending daily report:", error);
+    }
+
+  }, {
+    timezone: "Asia/Kolkata"
+  });
+
 };
 
 module.exports = startCronJobs;
