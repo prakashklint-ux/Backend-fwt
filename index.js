@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://localhost:5173/", 
+    origin: "https://localhost:5173", 
     origin: "https://fin-wise-tools.vercel.app", 
     credentials: true
   })
