@@ -25,7 +25,7 @@ const formSchema = new mongoose.Schema(
     }, 
     service: {
       type: String,
-      enum: ['Loan', 'Insurance', 'Other'],
+      enum: ['Home Loan', 'Personal Loan', 'Car Loan' ,'Gold Loan' ,'SIP Investment' , 'Car Insurance','Health Insurance','Life Insurance','Education Loan'],
       required: true
     },
     message: {
