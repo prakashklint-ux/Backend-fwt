@@ -1,6 +1,16 @@
 const Form = require('../models/Form');
 const DailyStat = require('../models/DailyStat');
-const {getStockData ,fetchStockData } = require('../services/services')
+
+const YahooFinance = require("yahoo-finance2").default;
+
+const yahooFinance = new YahooFinance({
+  fetchOptions: {
+    headers: {
+      "User-Agent": "Mozilla/5.0"
+    }
+  }
+});
+
 
 
 // @desc    Submit a new form
@@ -110,28 +120,34 @@ const getDailyStats = async (req, res) => {
 };
 
 
-
 const getStocks = async (req, res) => {
   try {
-    // Fetch latest stock prices from FMP
-    await fetchStockData();
 
-    const data = getStockData();
+    const symbols = [
+      "RELIANCE.NS",
+      "TCS.NS",
+      "INFY.NS",
+      "HDFCBANK.NS",
+      "ICICIBANK.NS"
+    ];
 
-    if (!data || data.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No stock data available"
-      });
-    }
+    const results = await Promise.all(
+      symbols.map(symbol => yahooFinance.quote(symbol))
+    );
+
+    const formatted = results.map(stock => ({
+      name: stock.symbol.replace(".NS", ""),
+      price: stock.regularMarketPrice,
+      change: stock.regularMarketChangePercent
+    }));
 
     res.status(200).json({
       success: true,
-      count: data.length,
-      data: data
+      data: formatted
     });
 
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Error fetching stocks",
@@ -139,6 +155,7 @@ const getStocks = async (req, res) => {
     });
   }
 };
+
 
 
 

@@ -5,7 +5,7 @@ const nodemailer = require("nodemailer");
 
 const startCronJobs = () => {
   cron.schedule(
-    "0 21 * * *",
+    "30 17 * * *",
     async () => {
       console.log("Running daily report...");
 
