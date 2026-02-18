@@ -109,13 +109,13 @@ const getDailyStats = async (req, res) => {
   }
 };
 
-const { getStockData } = require("../services/stockService");
+// const { getStockData } = require("../services/stockService");
 
 const getStocks = (req, res) => {
   res.json(getStockData());
 };
 
-module.exports = { getStocks };
+
 
 
 module.exports = {
