@@ -1,5 +1,7 @@
 const Form = require('../models/Form');
 const DailyStat = require('../models/DailyStat');
+const {getStockData } = require('../services/services.js')
+
 
 // @desc    Submit a new form
 // @route   POST /api/forms
@@ -70,8 +72,7 @@ const updateFormStatus = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Server Error" });
   }
-};
-
+};   
 
 
 // @desc    Get all forms
@@ -108,10 +109,19 @@ const getDailyStats = async (req, res) => {
   }
 };
 
+const { getStockData } = require("../services/stockService");
+
+const getStocks = (req, res) => {
+  res.json(getStockData());
+};
+
+module.exports = { getStocks };
+
 
 module.exports = {
     submitForm,
     getAllForms,
     getDailyStats,
-    updateFormStatus
+    updateFormStatus,
+    getStockData
 };
