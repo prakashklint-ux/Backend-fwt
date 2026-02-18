@@ -1,38 +1,54 @@
-const axios = require("axios");
+// const axios = require("axios");
 
-const stocks = [
-  "AAPL","MSFT","GOOGL","AMZN","TSLA",
-  "META","NVDA","NFLX","AMD","INTC"
-];
+// const stocks = [
+//   "RELIANCE:NSE",
+//   "TCS:NSE",
+//   "INFY:NSE",
+//   "HDFCBANK:NSE",
+//   "ICICIBANK:NSE",
+//   "SBIN:NSE",
+//   "BHARTIARTL:NSE",
+//   "ITC:NSE",
+//   "LT:NSE",
+//   "HINDUNILVR:NSE"
+// ];
 
-let stockData = [];
+// let stockData = [];
 
-const fetchStockData = async () => {
-  console.log("Fetching stock data...");
+// const fetchStockData = async () => {
+//   console.log("Fetching Indian stock data from Twelve Data...");
 
-  for (let i = 0; i < stocks.length; i++) {
-    try {
-      const response = await axios.get(
-        `https://api.twelvedata.com/price?symbol=${stocks[i]}&apikey=${process.env.TWELVE_API_KEY}`
-      );
+//   stockData = []; // clear old data
 
-      stockData[i] = {
-        symbol: stocks[i],
-        price: response.data.price,
-        updatedAt: new Date()
-      };
+//   try {
+//     for (let i = 0; i < stocks.length; i++) {
 
-      // 1 second delay (avoid 8/min limit)
-      await new Promise(resolve => setTimeout(resolve, 1000));
+//       const response = await axios.get(
+//         `https://api.twelvedata.com/quote?symbol=${stocks[i]}&apikey=${process.env.TWELVE_API_KEY}`
+//       );
 
-    } catch (error) {
-      console.log("Error fetching", stocks[i]);
-    }
-  }
+//       if (response.data && !response.data.code) {
+//         stockData.push({
+//           name: response.data.name,
+//           price: response.data.close,
+//           updatedAt: new Date()
+//         });
+//       } else {
+//         console.log("API Error:", response.data);
+//       }
 
-  console.log("Stock update completed");
-};
+//       // IMPORTANT: free plan limit = 8 requests per minute
+//       await new Promise(resolve => setTimeout(resolve, 8000)); // 8 sec delay safe
 
-const getStockData = () => stockData;
+//     }
 
-module.exports = { fetchStockData, getStockData };
+  
+
+//   } catch (error) {
+//     console.log("Error fetching stock data:", error.message);
+//   }
+// };
+
+// const getStockData = () => stockData;
+
+// module.exports = { fetchStockData, getStockData };

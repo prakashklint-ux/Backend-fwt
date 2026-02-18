@@ -1,6 +1,6 @@
 const Form = require('../models/Form');
 const DailyStat = require('../models/DailyStat');
-const {getStockData } = require('../services/services')
+const {getStockData ,fetchStockData } = require('../services/services')
 
 
 // @desc    Submit a new form
@@ -111,8 +111,33 @@ const getDailyStats = async (req, res) => {
 
 
 
-const getStocks = (req, res) => {
-  res.json(getStockData());
+const getStocks = async (req, res) => {
+  try {
+    // Fetch latest stock prices from FMP
+    await fetchStockData();
+
+    const data = getStockData();
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No stock data available"
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      count: data.length,
+      data: data
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching stocks",
+      error: error.message
+    });
+  }
 };
 
 

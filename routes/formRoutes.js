@@ -4,7 +4,7 @@ const { submitForm, getAllForms  ,  getStocks ,updateFormStatus} = require('../c
 router.route('/').post(submitForm).get(getAllForms);
 // router.get('/stats', getDailyStats);
 router.put('/:id/status', updateFormStatus);
-router.get("/stoke",getStocks)
+router.get("/stocks",getStocks)
 
 
 module.exports = router;

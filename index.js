@@ -27,12 +27,12 @@ app.get('/', (req, res) => {
   res.send('API is running...');
 });
 const stockRoutes = require('./routes/formRoutes.js');
-app.use('/api/stocks', stockRoutes);
+app.use('/api/stocks/v1', stockRoutes);
 
 const { fetchStockData } = require('./services/services.js');
 
-fetchStockData(); // run on start
-setInterval(fetchStockData, 19 * 60 * 1000); // 19 minutes
+// fetchStockData(); 
+// setInterval(fetchStockData, 19 * 60 * 1000); 
 
 const formRoutes = require('./routes/formRoutes');
 
