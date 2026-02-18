@@ -126,9 +126,7 @@ const getStocks = async (req, res) => {
     const symbols = [
       "RELIANCE.NS",
       "TCS.NS",
-      "INFY.NS",
-      "HDFCBANK.NS",
-      "ICICIBANK.NS"
+     
     ];
 
     const results = await Promise.all(
