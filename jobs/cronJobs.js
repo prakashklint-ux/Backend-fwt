@@ -5,10 +5,10 @@ const nodemailer = require('nodemailer');
 
 const startCronJobs = () => {
 
-  cron.schedule('* * * * *', async () => {
+  cron.schedule('0 21 * * *', async () => {
 
     console.log("Running daily report...");
-
+    
     try {
       const startOfDay = new Date();
       startOfDay.setHours(0, 0, 0, 0);
