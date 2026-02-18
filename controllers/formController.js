@@ -1,6 +1,6 @@
 const Form = require('../models/Form');
 const DailyStat = require('../models/DailyStat');
-const {getStockData } = require('../services/services.js')
+const {getStockData } = require('../services/services')
 
 
 // @desc    Submit a new form
@@ -109,7 +109,7 @@ const getDailyStats = async (req, res) => {
   }
 };
 
-// const { getStockData } = require("../services/stockService");
+
 
 const getStocks = (req, res) => {
   res.json(getStockData());
@@ -123,5 +123,5 @@ module.exports = {
     getAllForms,
     getDailyStats,
     updateFormStatus,
-    getStockData
+    getStocks
 };
