@@ -26,7 +26,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('API is running...');
 });
-const stockRoutes = require('./routes/stockRoutes');
+const stockRoutes = require('./routes/formRoutes.js');
 app.use('/api/stocks', stockRoutes);
 
 const { fetchStockData } = require('./services/services.js');
