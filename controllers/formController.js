@@ -1,15 +1,5 @@
 const Form = require('../models/Form');
 const DailyStat = require('../models/DailyStat');
-// const {getStockData} = require('../services/stockService');
-// const YahooFinance = require("yahoo-finance2").default;
-
-// const yahooFinance = new YahooFinance({
-//   fetchOptions: {
-//     headers: {
-//       "User-Agent": "Mozilla/5.0"
-//     }
-//   }
-// });
 
 
 
@@ -120,11 +110,6 @@ const getDailyStats = async (req, res) => {
 };
 
 
-const { getStockData } = require('../Service/services');
-
-const getStocks = (req, res) => {
-  res.json(getStockData());
-};
 
 
 
@@ -135,5 +120,5 @@ module.exports = {
     getAllForms,
     getDailyStats,
     updateFormStatus,
-    getStocks
+    
 };
